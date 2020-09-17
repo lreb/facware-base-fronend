@@ -1,0 +1,12 @@
+<h2>Login component</h2>
+
+{{isAuthenticated}}
+<button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
+<button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
+
+
+
+<br>
+<a [routerLink]="[ '/home' ]">home</a>
+<br>
+<a *ngIf="isAuthenticated" [routerLink]="[ '/control-panel', 'overview' ]">control panel</a>

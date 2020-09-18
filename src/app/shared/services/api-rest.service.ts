@@ -7,6 +7,7 @@ import { OktaAuthService } from '@okta/okta-angular';
 
 @Injectable({providedIn: 'root'})
 export class ApiRestService {
+
   constructor(
     private http: HttpClient,
     public oktaAuth: OktaAuthService
@@ -36,14 +37,17 @@ export class ApiRestService {
    */
   get<T>(host: string, version: string, endPoint: string): Observable<any> {
     const accessToken = this.oktaAuth.getAccessToken();
-    console.log(accessToken)
-    return this.http.get<T>(this.buildPath(host, endPoint, version), {
-      headers: {
-        Authorization: 'Bearer ' + accessToken
-      }
-    }
+
+    // {
+    //   headers: {
+    //     Authorization: 'Bearer ' + accessToken
+    //   }
+    // }
+    return this.http.get<T>(this.buildPath(host, endPoint, version)
     ).pipe(
-      tap(res => console.log('Get: ', JSON.stringify(res))),
+      tap(res => {
+        // console.log('Get: ', JSON.stringify(res));
+      }),
       catchError(this.handleError)
     );
     // return of(data);
@@ -57,7 +61,9 @@ export class ApiRestService {
    */
   post(host: string, version: string, endPoint: string, data: object): Observable<any> {
     return this.http.post(this.buildPath(host, endPoint, version), data).pipe(
-      tap(res => console.log('POST: ', JSON.stringify(res))),
+      tap(res => {
+        // console.log('POST: ', JSON.stringify(res))
+      }),
       catchError(this.handleError)
     );
   }

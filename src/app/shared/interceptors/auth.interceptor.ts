@@ -3,15 +3,36 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { mergeMap } from 'rxjs/operators';
 import { OktaAuthService } from '@okta/okta-angular';
 import { Observable, from } from 'rxjs';
+import { AuthenticationService } from '../services/authentication/authentication.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private oktaAuth: OktaAuthService) {
+  constructor(
+    private oktaAuth: OktaAuthService,
+    private authenticationService: AuthenticationService
+    ) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.isAuthenticated()
+
+    if (this.authenticationService.Jwt){
+
+
+      const idToken = this.authenticationService.getUserToken();
+      if (idToken) {
+          const cloned = request.clone({
+              headers: request.headers.set('Authorization',
+                  'Bearer ' + idToken)
+          });
+          return next.handle(cloned);
+      }
+      else {
+          return next.handle(request);
+      }
+    }
+    else if (this.authenticationService.Okta){
+      return this.isAuthenticated()
       .pipe(mergeMap((isAuthenticated) => {
         if (!isAuthenticated) {
           return next.handle(request);
@@ -28,7 +49,8 @@ export class AuthInterceptor implements HttpInterceptor {
               return next.handle(request);
             })
           );
-      }))
+      }));
+    }
   }
 
   private isAuthenticated(): Observable<boolean> {

@@ -1,6 +1,8 @@
 <p>overview works!</p>
 
-<button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
+isAuthenticated: {{isAuthenticated}}
+
+<button *ngIf="isAuthenticated" (click)="logout()"> Logout {{authMode}} </button>
 
 <br>
 

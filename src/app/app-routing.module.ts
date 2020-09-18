@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OktaCallbackComponent, OktaLoginRedirectComponent } from '@okta/okta-angular';
+import { OktaAuthGuard, OktaCallbackComponent, OktaLoginRedirectComponent } from '@okta/okta-angular';
 import { HomeComponent } from './components/home/home.component';
 import { MessageListComponent } from './components/message-list/message-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -10,11 +10,12 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'control-panel',
-    loadChildren: () => import('./modules/control-panel/control-panel.module').then(m => m.ControlPanelModule),
+    loadChildren: () => import('./modules/control-panel/control-panel.module').then(m => m.ControlPanelModule)
+    //, canActivate: [ OktaAuthGuard ]
   },
   {
     path: 'authentication',
-    loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule),
+    loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   { path: 'home', component: HomeComponent },
   { path: 'implicit/callback', component: OktaCallbackComponent },

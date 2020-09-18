@@ -7,7 +7,9 @@ import { OktaAuthGuard } from '@okta/okta-angular';
  * Set routes configuration for this child module
  */
 const routes: Routes = [
-  { path: 'overview', component: OverviewComponent, canActivate: [ OktaAuthGuard ] }
+  { path: 'overview', component: OverviewComponent
+    // , canActivate: [ OktaAuthGuard ]
+  }
 ];
 
 /**

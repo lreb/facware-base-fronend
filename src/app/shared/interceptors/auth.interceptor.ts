@@ -13,7 +13,11 @@ export class AuthInterceptor implements HttpInterceptor {
     private authenticationService: AuthenticationService
     ) {
   }
-
+  /**
+   * handle web request to use the correct JWT and authenticate with the API
+   * @param request request
+   * @param next http handler
+   */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (this.authenticationService.Jwt){

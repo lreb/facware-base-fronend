@@ -6,15 +6,12 @@ import { AppComponent } from './app.component';
 
 import {
   OKTA_CONFIG,
-  OktaAuthGuard,
   OktaAuthModule,
-  OktaCallbackComponent,
   OktaAuthService
 } from '@okta/okta-angular';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
-import { RouterModule } from '@angular/router';
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
@@ -24,6 +21,9 @@ import { environment } from 'src/environments/environment';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 
+/**
+ * Okta configuration object
+ */
 const oktaConfig = {
   issuer: environment.okta.issuer,
   redirectUri: environment.okta.redirectUri,

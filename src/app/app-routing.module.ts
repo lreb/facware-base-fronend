@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OktaAuthGuard, OktaCallbackComponent, OktaLoginRedirectComponent } from '@okta/okta-angular';
+import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 import { HomeComponent } from './components/home/home.component';
 import { MessageListComponent } from './components/message-list/message-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'control-panel',
     loadChildren: () => import('./modules/control-panel/control-panel.module').then(m => m.ControlPanelModule)
-    //, canActivate: [ OktaAuthGuard ]
+    // , canActivate: [ OktaAuthGuard ] // uncomment when use OKTA Guard in routing model
   },
   {
     path: 'authentication',

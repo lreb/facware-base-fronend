@@ -36,18 +36,10 @@ export class ApiRestService {
    * @param endPoint endpoint name
    */
   get<T>(host: string, version: string, endPoint: string): Observable<any> {
-    const accessToken = this.oktaAuth.getAccessToken();
 
-    // {
-    //   headers: {
-    //     Authorization: 'Bearer ' + accessToken
-    //   }
-    // }
     return this.http.get<T>(this.buildPath(host, endPoint, version)
     ).pipe(
-      tap(res => {
-        // console.log('Get: ', JSON.stringify(res));
-      }),
+      tap(res => { this.logAPIResponse('Get: ', JSON.stringify(res)); }),
       catchError(this.handleError)
     );
     // return of(data);
@@ -61,9 +53,7 @@ export class ApiRestService {
    */
   post(host: string, version: string, endPoint: string, data: object): Observable<any> {
     return this.http.post(this.buildPath(host, endPoint, version), data).pipe(
-      tap(res => {
-        // console.log('POST: ', JSON.stringify(res))
-      }),
+      tap(res => { this.logAPIResponse('POST: ', JSON.stringify(res)); }),
       catchError(this.handleError)
     );
   }
@@ -76,7 +66,7 @@ export class ApiRestService {
    */
   put(host: string, version: string, endPoint: string, data: object): Observable<any> {
     return this.http.put(this.buildPath(host, endPoint, version), data).pipe(
-      tap(res => console.log('PUT: ', JSON.stringify(res))),
+      tap(res => this.logAPIResponse('PUT: ', JSON.stringify(res))),
       catchError(this.handleError)
     );
   }
@@ -88,10 +78,14 @@ export class ApiRestService {
    */
   delete(host: string, version: string, endPoint: string): Observable<any> {
     return this.http.delete(this.buildPath(host, endPoint, version)).pipe(
-      tap(res => console.log('POST: ', JSON.stringify(res))),
+      tap(res => this.logAPIResponse('POST: ', JSON.stringify(res))),
       catchError(this.handleError)
     );
   }
+  /**
+   * handle error events
+   * @param err error object
+   */
   private handleError(err: HttpErrorResponse): Observable<ServiceResult> {
     const serviceResult = new ServiceResult();
     if (err.error instanceof ErrorEvent) {
@@ -100,5 +94,14 @@ export class ApiRestService {
       serviceResult.message = `Server returned code: ${err.status}, error message is: ${err.message}`;
     }
     return throwError(serviceResult);
+  }
+
+  /**
+   * log messages
+   * @param message custom mesagge
+   * @param optional optional bject
+   */
+  logAPIResponse(message, optional) {
+    console.log(`${message}`, JSON.stringify(optional));
   }
 }

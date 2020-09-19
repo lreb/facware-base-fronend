@@ -21,29 +21,11 @@ export class OverviewComponent implements OnInit {
     private api: ApiRestService,
     private authenticationService: AuthenticationService
   ) {
-    // // get authentication state for immediate use
-    // this.oktaAuth.isAuthenticated().then(result => {
-    //   this.isAuthenticated = result;
-    // });
-    // subscribe to authentication state changes
-    // this.oktaAuth.$authenticationState.subscribe(
-    //   (isAuthenticated: boolean) => {
-    //     console.log(isAuthenticated);
-    //     this.isAuthenticated = isAuthenticated;
-    //   }
-    // );
     this.getData();
   }
 
   async ngOnInit() {
     this.isAuthenticated = await this.authenticationService.validateAuthentication();
-     // = await this.authenticationService.validateOktaAuthenticationPromise();
-
-    // this.isAuthenticated = await this.oktaAuth.isAuthenticated();
-    // // returns an array of claims
-    // const userClaims = await this.oktaAuth.getUser();
-    // // user name is exposed directly as property
-    // this.userName = userClaims.email;
   }
 
   logout() {
@@ -59,7 +41,6 @@ export class OverviewComponent implements OnInit {
       },
       (err: any) => console.log(err),
       () => {
-        // console.log('done users');
       }
     );
   }

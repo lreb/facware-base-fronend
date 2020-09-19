@@ -1,4 +1,4 @@
-import { ProtocolTypes } from 'src/app/shared/constants/general';
+import { AuthenticationMode, ProtocolTypes } from 'src/app/shared/constants/general';
 
 export const environment = {
   production: true,
@@ -10,6 +10,7 @@ export const environment = {
       host: `${ProtocolTypes.Https}localhost:5001`
     }
   },
+  authenticationMethod: AuthenticationMode.OKTA,
   okta: {
     issuer: `${ProtocolTypes.Https}{replace-with-okta-domain}.okta.com/oauth2/default`,
     redirectUri: window.location.origin + '/implicit/callback',

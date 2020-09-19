@@ -13,7 +13,9 @@ export enum ProtocolTypes {
   Https = 'https://'
 }
 
-
+/**
+ * General local stirage items
+ */
 export enum LocalStorageItems {
   FacwareUserDataStorage = 'facware-user-data-storage'
 }

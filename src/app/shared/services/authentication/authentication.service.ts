@@ -34,7 +34,7 @@ export class AuthenticationService {
       }
     );
 
-    this.validateOktaAuthentication();
+    this.validateAuthentication();
 
     this.Okta = environment.authenticationMethod === AuthenticationMode.OKTA ? true : false;
     this.Jwt = environment.authenticationMethod === AuthenticationMode.JWT ? true : false;
@@ -45,10 +45,13 @@ export class AuthenticationService {
 
     }
   }
-
+  /**
+   * Validate user authetication
+   */
   async validateAuthentication(){
     if (this.Okta) {
-      return this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+      this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+      return this.isAuthenticated;
     } else if (this.Jwt) {
       const helper = new JwtHelperService();
       const isExpired = helper.isTokenExpired(this.getUserToken());
@@ -56,14 +59,9 @@ export class AuthenticationService {
     }
   }
 
-  async validateOktaAuthentication(){
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
-  }
-
-  async validateOktaAuthenticationPromise(): Promise<boolean>{
-    return await this.oktaAuth.isAuthenticated();
-  }
-
+  /**
+   * Login and create a JWT/Okta
+   */
   login() {
     if (this.Okta) {
       this.oktaAuth.loginRedirect('/control-panel/overview');
@@ -84,7 +82,9 @@ export class AuthenticationService {
       });
     }
   }
-
+  /**
+   * clean session
+   */
   logout() {
     if (this.Okta) {
       localStorage.clear();
@@ -94,7 +94,9 @@ export class AuthenticationService {
       this.router.navigate(['/']);
     }
   }
-
+  /**
+   * Get user token for JWT mode
+   */
   getUserToken(): string {
     const userStorage = JSON.parse(localStorage.getItem(LocalStorageItems.FacwareUserDataStorage));
     return userStorage !== null ? userStorage.token : '';
